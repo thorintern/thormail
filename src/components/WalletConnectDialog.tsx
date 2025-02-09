@@ -243,6 +243,7 @@ export function WalletConnectDialog({ open, onOpenChange }: WalletConnectDialogP
                                   onClick={async () => {
                                     if (wallet === WalletOption.KEYSTORE) {
                                       triggerKeystoreFileSelect(() => setIsKeystoreOpen(true));
+                                      await handleConnect(wallet);
                                       onOpenChange(false);
                                     } else {
                                       await handleConnect(wallet);

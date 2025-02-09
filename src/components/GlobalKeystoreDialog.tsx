@@ -38,8 +38,12 @@ export const GlobalKeystoreDialog = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("000");
     const trimmedPassword = password.trim();
+    console.log("001");
+    console.log(trimmedPassword);
     if (!(trimmedPassword && keystoreFile)) return;
+    console.log("002");
     await connectKeystore(trimmedPassword);
     // await handleConnect(WalletOption.KEYSTORE);
   };

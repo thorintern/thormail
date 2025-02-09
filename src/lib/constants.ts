@@ -1,0 +1,1 @@
+export const THORMAIL_ADDRESS = "thor1tdddz07la34mnl0dfksn8z82nzecvudgwgdh8l";

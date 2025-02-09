@@ -1,7 +1,7 @@
 "use client";
 
 import type { SwapKit } from "@swapkit/core";
-import type { AssetValue, Chain, EVMChain } from "@swapkit/helpers";
+import { AssetValue, Chain, EVMChain } from "@swapkit/helpers";
 import { NetworkDerivationPath, WalletOption } from "@swapkit/helpers";
 import type { ChainflipPlugin } from "@swapkit/plugin-chainflip";
 import type { KadoPlugin } from "@swapkit/plugin-kado";
@@ -210,26 +210,40 @@ export const useSwapKit = () => {
       if (!(keystoreFile && swapKit)) return;
 
       try {
+        console.log("00");
         setIsKeystoreDecrypting(true);
+        console.log("01");
         const { decryptFromKeystore } = await import("@swapkit/wallet-keystore");
+        console.log("02");
         const phrase = await decryptFromKeystore(keystoreFile.keystore, password);
+        console.log("03");
         if (!phrase) throw new Error("Failed to decrypt keystore");
 
-        await swapKit.connectKeystore(keystoreFile.chains, phrase);
+        await swapKit.connectKeystore([Chain.THORChain], phrase);
+        console.log("04");
         setWalletState({ connected: true, type: WalletOption.KEYSTORE });
+        console.log("05");
         setIsKeystoreOpen(false);
+        console.log("06");
         setKeystoreFile(null);
+        console.log("07");
 
         const balancePromises = keystoreFile.chains.map(async (chain) => {
           const wallet = await swapKit?.getWalletWithBalance(chain);
           if (!(wallet && "balance" in wallet)) return [];
           return wallet.balance as AssetValue[];
         });
+
+        console.log("08");
         const chainBalances = await Promise.all(balancePromises);
         const allBalances = chainBalances.flat();
+        console.log("09");
         setBalances(allBalances.sort((a, b) => a.getValue("number") - b.getValue("number")));
+        console.log("10");
       } catch (error) {
+        console.log("-01");
         console.error("Failed to decrypt keystore:", error);
+        console.log("-02");
         setWalletState({ connected: false, type: null });
       } finally {
         setIsKeystoreDecrypting(false);
