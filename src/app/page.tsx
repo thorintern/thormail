@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Script from 'next/script';
 
 export default function Home() {
   const [selectedMessage, setSelectedMessage] = useState<number | null>(null);
@@ -12,6 +13,8 @@ export default function Home() {
 
   return (
     <div className="flex items-center justify-center h-screen">
+      <div className="custom-cursor">💌</div>
+      <Script src="/cursor-trail.js" strategy="afterInteractive" />
       <div className="flex w-full max-w-6xl h-3/4 bg-pink-50 rounded-2xl shadow-xl border border-pink-100">
         {/* Left Messages List */}
         <div className="w-1/3 bg-white p-6 rounded-l-2xl shadow-lg">
