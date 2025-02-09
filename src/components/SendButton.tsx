@@ -26,7 +26,17 @@ export function SendButton({ compose, content, recipient, onConnect}: {compose: 
           })
         }} className="bg-pink-100 text-pink-600 px-4 py-2 rounded-lg text-sm hover:bg-pink-200 transition-colors">Send Love</Button>
       ) : (
-        <Button onClick={() =>  alert("test")} className="bg-pink-100 text-pink-600 px-4 py-2 rounded-lg text-sm hover:bg-pink-200 transition-colors">Reply 💌</Button>
+        <Button onClick={() => {
+          if (!isWalletConnected) {
+            onConnect();
+            return;
+          }
+          sendMessages({
+            from: walletAddress || "",
+            to: recipient,
+            content: content,
+          })
+        }} className="bg-pink-100 text-pink-600 px-4 py-2 rounded-lg text-sm hover:bg-pink-200 transition-colors">Reply 💌</Button>
       )}
     </>
   );
