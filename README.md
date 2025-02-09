@@ -14,4 +14,4 @@ Use it to spread love only.
 - Add richer text with break lines, bold and italic
 - Allow image tag, fetch from link and display inline
 - Play optional sound on new message
-- Add points counter 👀
+- Support longer messages by concatenating memos
