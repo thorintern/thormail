@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { fetchMessages } from '../lib/midgard';
 import { formatActionsToThorMail } from '../lib/message';
-import Script from 'next/script';
 import Image from 'next/image';
 
 import { WalletButton } from "../components/WalletButton";
