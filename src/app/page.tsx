@@ -1,12 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { fetchMessages } from '../lib/midgard';
 import { formatActionsToThorMail } from '../lib/message';
 import Script from 'next/script';
 import Image from 'next/image';
 
 import { WalletButton } from "../components/WalletButton";
+const CursorTrail = dynamic(() => import('../components/CursorTrail'), { ssr: false });
 import { SendButton } from "../components/SendButton";
 import { GlobalKeystoreDialog } from "../components/GlobalKeystoreDialog";
 import { THORMAIL_ADDRESS } from "@/lib/constants";
@@ -56,8 +58,7 @@ export default function Home() {
   return (
     <div className="flex items-center justify-center h-screen">
       <GlobalKeystoreDialog />
-      <div className="custom-cursor">💌</div>
-      <Script src="/cursor-trail.js" strategy="afterInteractive" />
+      <CursorTrail />
       <div className="flex w-full max-w-4xl h-2/3 bg-pink-50 rounded-2xl shadow-xl border border-pink-100 pane-container">
         {/* Left Messages List */}
         <div className="w-1/3 bg-white p-4 rounded-l-2xl shadow-lg">
