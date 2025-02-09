@@ -5,6 +5,8 @@ import dynamic from 'next/dynamic';
 import { fetchMessages } from '../lib/midgard';
 import { formatActionsToThorMail } from '../lib/message';
 import Image from 'next/image';
+import { useSwapKit } from "../lib/swapkit";
+import { Chain } from "@swapkit/helpers";
 
 import { WalletButton } from "../components/WalletButton";
 const CursorTrail = dynamic(
@@ -17,6 +19,8 @@ import { THORMAIL_ADDRESS } from "@/lib/constants";
 import { ThorMail } from "@/types/thormail"; 
 
 export default function Home() {
+  const { swapKit, isWalletConnected } = useSwapKit();
+  const walletAddress = swapKit?.getWallet(Chain.THORChain)?.address;
   const [selectedMessage, setSelectedMessage] = useState<number | null>(null);
   const [messageContent, setMessageContent] = useState("");
   const [recipientAddress, setRecipientAddress] = useState("all");
@@ -39,7 +43,7 @@ export default function Home() {
     };
 
     loadMessages();
-  }, []);
+  }, [walletAddress]);
 
   // Combine static compose message with loaded messages
   const messages = [
@@ -52,7 +56,11 @@ export default function Home() {
     ...thormails.map((mail, i) => ({
       id: i + 1,
       isCompose: false,
-      title: `${mail.from.slice(-4)} → ${mail.recipient === THORMAIL_ADDRESS ? 'All' : mail.recipient.slice(-4)}`,
+      title: `${mail.from === walletAddress ? 'You' : mail.from.slice(-4)} → ${
+        mail.recipient === THORMAIL_ADDRESS 
+          ? 'All' 
+          : mail.recipient === walletAddress ? 'You' : mail.recipient.slice(-4)
+      }`,
       content: mail.content
     }))
   ];

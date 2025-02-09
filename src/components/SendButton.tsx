@@ -15,7 +15,12 @@ export function SendButton({ compose, content, recipient, onConnect, onSwitchToC
       {compose ? (
         <Button onClick={() => {
           if (!isWalletConnected) {
-            onConnect();
+            const connectButton = document.querySelector<HTMLButtonElement>('.connect-wallet-btn');
+            if (connectButton) {
+              connectButton.click();
+              // Add a small delay to allow connection before refreshing
+              setTimeout(() => window.location.reload(), 1000);
+            }
             return;
           }
           sendMessages({
