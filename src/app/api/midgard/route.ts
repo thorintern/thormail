@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { sql } from '@vercel/postgres';
 import { THORMAIL_ADDRESS } from '@/lib/constants';
-import { MidgardActionListDTO } from '@/types/midgard';
+import { MidgardActionListDTO, MidgardActionDTO } from '@/types/midgard';
 
 const midgardUrl = "https://midgard.ninerealms.com";
 const customHeaders = { "x-client-id": "thormail" };
@@ -47,7 +47,7 @@ export async function GET() {
     
     const existingTxIDs = new Set(
       existingRows[0]?.value?.actions
-        ?.flatMap((action: any) => action.metadata?.send?.txID)
+        ?.flatMap((action: MidgardActionDTO) => action.metadata?.send?.txID)
         .filter(Boolean) || []
     );
 
