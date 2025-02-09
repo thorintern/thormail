@@ -45,9 +45,15 @@ export default function Home() {
 
       {/* Right Content Area */}
       <div className="flex-1 p-8 bg-white rounded-r-2xl shadow-lg">
+        <div className="flex justify-between items-center mb-6">
+          <div className="text-pink-400 text-sm">Selected message</div>
+          <button className="bg-pink-100 text-pink-600 px-4 py-2 rounded-lg text-sm hover:bg-pink-200 transition-colors">
+            Connect Wallet
+          </button>
+        </div>
         {selectedMessage === 0 ? (
           <textarea
-            className="w-full h-full p-6 rounded-lg border-2 border-pink-200 focus:border-red-300 focus:ring-2 focus:ring-red-200 resize-none text-pink-900 placeholder-pink-300 bg-white"
+            className="w-full h-[calc(100%-3rem)] p-6 rounded-lg border-2 border-pink-200 focus:border-red-300 focus:ring-2 focus:ring-red-200 resize-none text-pink-900 placeholder-pink-300 bg-white"
             placeholder="Write your heartfelt message here..."
           />
         ) : (
