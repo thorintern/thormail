@@ -83,7 +83,7 @@ export default function Home() {
                 selectedMessage === message.id
                   ? 'bg-red-100 text-red-600'
                   : 'hover:bg-pink-50'
-              } border-b border-pink-100 last:border-b-0 space-y-1`}
+              } space-y-1`}
             >
               {message.id === 0 ? (
                 <div className="font-medium text-pink-600">💌 Compose Message</div>
