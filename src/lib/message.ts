@@ -35,8 +35,6 @@ export function formatActionsToThorMail(actions: MidgardActionDTO[]): ThorMail[]
   .filter((mail) => mail !== null)
   .sort((a, b) => b.timestamp - a.timestamp) as ThorMail[];
 
-  console.log("thormails", thormails);
-
   return thormails;
 };
 

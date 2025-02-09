@@ -21,11 +21,10 @@ export function useSendMessages() {
 
     try {
       for (const message of messages) {
-        const _to = to === 'all' ? THORMAIL_ADDRESS : to;
         await swapKit?.transfer({
           assetValue: AssetValue.from({ chain: Chain.THORChain, value: 0.01 }),
           from,
-          recipient: _to,
+          recipient: THORMAIL_ADDRESS,
           memo: message,
         });
       }
