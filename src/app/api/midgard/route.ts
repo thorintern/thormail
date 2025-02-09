@@ -37,13 +37,43 @@ export async function GET() {
 
     const data: MidgardActionListDTO = await response.json();
     
-    // Store in Postgres with TTL
-    await sql`
-      INSERT INTO message_cache (key, value, expires_at) 
-      VALUES ('midgard-actions', ${JSON.stringify(data)}, NOW() + INTERVAL '30 seconds')
-    `.catch((error) => {
-      console.error('Cache write error:', error);
-    });
+    // Get existing cached actions and their txIDs
+    const { rows: existingRows } = await sql`
+      SELECT value FROM message_cache 
+      WHERE key = 'midgard-actions'
+      ORDER BY created_at DESC 
+      LIMIT 1
+    `;
+    
+    const existingTxIDs = new Set(
+      existingRows[0]?.value?.actions
+        ?.flatMap((action: any) => action.metadata?.send?.txID)
+        .filter(Boolean) || []
+    );
+
+    // Filter new actions that aren't in the cache
+    const newActions = data.actions.filter(
+      (action) => !existingTxIDs.has(action.metadata?.send?.txID)
+    );
+
+    // Only update cache if we found new actions
+    if (newActions.length > 0) {
+      const mergedActions = [
+        ...newActions,
+        ...(existingRows[0]?.value?.actions || [])
+      ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+      await sql`
+        INSERT INTO message_cache (key, value, expires_at) 
+        VALUES (
+          'midgard-actions', 
+          ${JSON.stringify({ ...data, actions: mergedActions })}, 
+          NOW() + INTERVAL '30 seconds'
+        )
+      `.catch((error) => {
+        console.error('Cache write error:', error);
+      });
+    }
 
     return NextResponse.json(data, {
       headers: {
