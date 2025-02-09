@@ -34,12 +34,6 @@ export default function Home() {
 
     const loadMessages = async () => {
       try {
-        // Clear messages immediately when wallet disconnects
-        if (!walletAddress && isMounted) {
-          setThormails([]);
-          return;
-        }
-
         const actions = await fetchMessages(abortController.signal);
         if (isMounted) {
           const formatted = formatActionsToThorMail(actions);
