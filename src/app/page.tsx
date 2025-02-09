@@ -68,16 +68,20 @@ export default function Home() {
       content: "",
       isCompose: true 
     },
-    ...thormails.map((mail, i) => ({
-      id: i + 1,
-      isCompose: false,
-      title: `${mail.from === walletAddress ? 'You' : mail.from.slice(-4)} → ${
-        mail.recipient === THORMAIL_ADDRESS 
-          ? 'All' 
-          : mail.recipient === walletAddress ? 'You' : mail.recipient.slice(-4)
-      }`,
-      content: mail.content
-    }))
+    ...thormails
+      .filter((mail, index, self) => 
+        self.findIndex(m => m.content === mail.content && m.from === mail.from) === index
+      )
+      .map((mail, i) => ({
+        id: i + 1,
+        isCompose: false,
+        title: `${mail.from === walletAddress ? 'You' : mail.from.slice(-4)} → ${
+          mail.recipient === THORMAIL_ADDRESS 
+            ? 'All' 
+            : mail.recipient === walletAddress ? 'You' : mail.recipient.slice(-4)
+        }`,
+        content: mail.content
+      }))
   ];
 
   return (
