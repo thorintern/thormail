@@ -5,7 +5,7 @@ import { useSwapKit } from "../lib/swapkit";
 import { Chain } from "@swapkit/helpers";
 import { useSendMessages } from "../hooks/useSendMessages";
 
-export function SendButton({ compose, content, recipient, onConnect}: {compose: boolean; content: string; recipient: string, onConnect: () => void, onSwitchToCompose: () => void}) {
+export function SendButton({ compose, content, recipient, onConnect, onSwitchToCompose}: {compose: boolean; content: string; recipient: string, onConnect: () => void, onSwitchToCompose: () => void}) {
   const { swapKit, isWalletConnected } = useSwapKit();
   const walletAddress = swapKit?.getWallet(Chain.THORChain)?.address;
   const { sendMessages } = useSendMessages()
