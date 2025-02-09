@@ -18,7 +18,12 @@ export function WalletButton() {
       {isWalletConnected ? (
         <Button onClick={() => setDrawerOpen(true)} className="bg-pink-100 text-pink-600 px-4 py-2 rounded-lg text-sm hover:bg-pink-200 transition-colors">My Wallet</Button>
       ) : (
-        <Button onClick={() => setConnectOpen(true)} className="bg-pink-100 text-pink-600 px-4 py-2 rounded-lg text-sm hover:bg-pink-200 transition-colors">Connect Wallet</Button>
+        <Button 
+          onClick={() => setConnectOpen(true)} 
+          className="connect-wallet-btn bg-pink-100 text-pink-600 px-4 py-2 rounded-lg text-sm hover:bg-pink-200 transition-colors"
+        >
+          Connect Wallet
+        </Button>
       )}
 
       <WalletConnectDialog open={connectOpen} onOpenChange={setConnectOpen} />

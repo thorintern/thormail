@@ -141,7 +141,7 @@ export default function Home() {
               compose={selectedMessage === 0} 
               content={messageContent}
               recipient={recipientAddress}
-              onConnect={() => document.querySelector<HTMLButtonElement>('button:has("Connect Wallet")')?.click()}
+              onConnect={() => document.querySelector<HTMLButtonElement>('.connect-wallet-btn')?.click()}
             />
           </div>
         </div>
