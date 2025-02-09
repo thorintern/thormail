@@ -3,7 +3,16 @@ const cursor = document.querySelector('.custom-cursor');
 document.addEventListener('mousemove', (e) => {
   cursor.style.top = `${e.clientY}px`;
   cursor.style.left = `${e.clientX}px`;
-  createHeartTrail(e.clientX, e.clientY);
+  
+  // Only create trails when not hovering over panes
+  const paneContainer = document.querySelector('.pane-container');
+  const isOverPane = paneContainer && paneContainer.contains(e.target);
+  
+  cursor.style.opacity = isOverPane ? '0' : '1';
+  
+  if (!isOverPane) {
+    createHeartTrail(e.clientX, e.clientY);
+  }
 });
 
 function createHeartTrail(x, y) {
