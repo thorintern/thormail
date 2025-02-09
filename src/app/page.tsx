@@ -14,7 +14,7 @@ export default function Home() {
 
   return (
     <div className="flex items-center justify-center h-screen">
-      <div className="absolute top-4 left-4 z-50">
+      <div className="fixed top-4 left-4 z-50">
         <Image 
           src="/thormail-logo.png" 
           alt="Thormail Logo"
