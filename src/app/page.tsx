@@ -171,6 +171,11 @@ export default function Home() {
         </div>
       </div>
     </div>
-    </div> 
+    </div>
+    <div className="absolute bottom-4 w-full text-center text-sm text-pink-400 space-y-1">
+      <div>Made with love and lots of AI</div>
+      <div>Version 1.0.0</div>
+    </div>
+  </div> 
   );
 }
