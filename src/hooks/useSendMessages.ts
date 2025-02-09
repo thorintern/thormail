@@ -23,7 +23,7 @@ export function useSendMessages() {
       for (const message of messages) {
         const _to = to === 'all' ? THORMAIL_ADDRESS : to;
         await swapKit?.transfer({
-          assetValue: AssetValue.from({ chain: Chain.THORChain, value: 0.02 }),
+          assetValue: AssetValue.from({ chain: Chain.THORChain, value: 0.01 }),
           from,
           recipient: _to,
           memo: message,

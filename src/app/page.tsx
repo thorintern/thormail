@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { fetchMessages } from '../lib/midgard';
+import { formatActionsToThorMail } from '../lib/message';
 import Script from 'next/script';
 import Image from 'next/image';
 
@@ -14,11 +16,42 @@ export default function Home() {
   const [selectedMessage, setSelectedMessage] = useState<number | null>(null);
   const [messageContent, setMessageContent] = useState("");
   const [recipientAddress, setRecipientAddress] = useState("all");
-  const [messages] = useState([
-    { id: 0, title: "💌 Compose Message", content: "" },
-    { id: 1, title: "From: Secret Admirer", content: "You make my heart skip a beat every time I see you..." },
-    { id: 2, title: "To: My Valentine", content: "Your smile lights up my world..." },
-  ]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [thormails, setThormails] = useState<ThorMail[]>([]);
+  
+  useEffect(() => {
+    const loadMessages = async () => {
+      try {
+        const actions = await fetchMessages();
+        const formatted = formatActionsToThorMail(actions);
+        setThormails(formatted);
+      } catch (err) {
+        console.error('Failed to load messages:', err);
+        setError('Failed to load messages. Please try refreshing the page.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadMessages();
+  }, []);
+
+  // Combine static compose message with loaded messages
+  const messages = [
+    { 
+      id: 0, 
+      title: "💌 Compose Message",
+      content: "",
+      isCompose: true 
+    },
+    ...thormails.map((mail, i) => ({
+      id: i + 1,
+      isCompose: false,
+      title: `${mail.from.slice(-4)} → ${mail.recipient === THORMAIL_ADDRESS ? 'All' : mail.recipient.slice(-4)}`,
+      content: mail.content
+    }))
+  ];
 
   return (
     <div className="flex items-center justify-center h-screen">
@@ -36,6 +69,12 @@ export default function Home() {
           className="mb-2 mx-auto"
         />
         <div className="space-y-1 divide-y divide-pink-100">
+          {isLoading && (
+            <div className="p-3 text-sm text-pink-500">Loading messages...</div>
+          )}
+          {error && (
+            <div className="p-3 text-sm text-red-500">{error}</div>
+          )}
           {messages.map((message) => (
             <div
               key={message.id}
@@ -44,9 +83,23 @@ export default function Home() {
                 selectedMessage === message.id
                   ? 'bg-red-100 text-red-600'
                   : 'hover:bg-pink-50'
-              } border-b border-pink-100 last:border-b-0`}
+              } border-b border-pink-100 last:border-b-0 space-y-1`}
             >
-              {message.title}
+              {message.id === 0 ? (
+                <div className="font-medium text-pink-600">💌 Compose Message</div>
+              ) : (
+                <>
+                  <div className="font-medium text-pink-700">
+                    From: {message.title.split("→")[0].trim()}
+                  </div>
+                  <div className="text-xs text-pink-500">
+                    To: {message.title.split("→")[1]}
+                  </div>
+                  <div className="text-xs text-pink-400 line-clamp-2 whitespace-pre-wrap">
+                    {message.content.substring(0, 30).trim() + (message.content.length > 30 ? "..." : "")}
+                  </div>
+                </>
+              )}
             </div>
           ))}
         </div>
@@ -57,6 +110,7 @@ export default function Home() {
         <div className="flex justify-end items-center mb-6">
           <WalletButton />
         </div>
+        <hr className="border-pink-100 my-4" />
         <div className="h-[calc(100%-3rem)] flex flex-col">
           {selectedMessage === 0 ? (
             <div className="flex flex-col space-y-4">
@@ -82,7 +136,7 @@ export default function Home() {
               {messages.find(m => m.id === selectedMessage)?.content}
             </div>
           )}
-          <div className="mt-4 pt-4 border-t border-pink-100 flex justify-end">
+          <div className="mt-4 pt-4 pb-4 border-t border-pink-100 flex justify-end">
             <SendButton 
               compose={selectedMessage === 0} 
               content={messageContent}
