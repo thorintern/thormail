@@ -19,7 +19,7 @@ import { THORMAIL_ADDRESS } from "@/lib/constants";
 import { ThorMail } from "@/types/thormail"; 
 
 export default function Home() {
-  const { swapKit, isWalletConnected } = useSwapKit();
+  const { swapKit, /* isWalletConnected */ } = useSwapKit();
   const walletAddress = swapKit?.getWallet(Chain.THORChain)?.address;
   const [selectedMessage, setSelectedMessage] = useState<number | null>(null);
   const [messageContent, setMessageContent] = useState("");
@@ -171,11 +171,10 @@ export default function Home() {
         </div>
       </div>
     </div>
-    </div>
     <div className="absolute bottom-4 w-full text-center text-sm text-pink-400 space-y-1">
-      <div>Made with love and lots of AI</div>
-      <div>Version 1.0.0</div>
+      <div>Made with love and lots of AI ❤️🤖🧠</div>
+      <div>Version 1.0.0 - <a href="https://github.com/thorintern/thormail" className="hover:text-pink-600 transition-colors" target="_blank">Source code</a></div>
     </div>
-  </div> 
+    </div>
   );
 }
