@@ -18,7 +18,13 @@ body {
   }
   
   @keyframes beam {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+    0%, 100% { 
+      transform: scale(1);
+      color: inherit;
+    }
+    50% { 
+      transform: scale(1.1);
+      color: #ff4d6d;
+    }
   }
 }
