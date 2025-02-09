@@ -17,7 +17,7 @@ function createHeartTrail(x, y) {
 
   setTimeout(() => {
     heart.remove();
-  }, 1000);
+  }, 1200);
 }
 
 function getRandomColor() {
