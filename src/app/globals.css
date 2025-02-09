@@ -33,23 +33,25 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   pointer-events: none;
   z-index: 1000;
-  font-size: 30px;
+  font-size: 40px;
   line-height: 1;
   transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 
 .heart-trail {
   position: absolute;
-  width: 20px;
-  height: 20px;
-  background-color: red;
+  width: 30px;
+  height: 30px;
+  background-color: rgb(233, 115, 141);
   opacity: 1;
-  animation: fade 1s ease forwards;
-  clip-path: polygon(50% 0%, 100% 37%, 82% 100%, 50% 80%, 18% 100%, 0% 37%);
+  animation: fade 2s ease forwards;
+  clip-path: path("M12 4.419c-2.826-5.695-11.999-4.064-11.999 3.27 0 7.27 9.903 10.938 11.999 15.311 2.096-4.373 12-8.041 12-15.311 0-7.327-9.17-8.972-12-3.27z");
 }
 
 @keyframes fade {
