@@ -7,7 +7,10 @@ import { formatActionsToThorMail } from '../lib/message';
 import Image from 'next/image';
 
 import { WalletButton } from "../components/WalletButton";
-const CursorTrail = dynamic(() => import('../components/CursorTrail'), { ssr: false });
+const CursorTrail = dynamic(
+  () => import('../components/CursorTrail').then((mod) => mod.CursorTrail),
+  { ssr: false }
+);
 import { SendButton } from "../components/SendButton";
 import { GlobalKeystoreDialog } from "../components/GlobalKeystoreDialog";
 import { THORMAIL_ADDRESS } from "@/lib/constants";
