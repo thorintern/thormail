@@ -43,3 +43,4 @@ screenshots/*
 .env
 .DS_Store
 thormail-keystore.txt
+.patches
