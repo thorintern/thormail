@@ -9,16 +9,25 @@ const customHeaders = { "x-client-id": "thormail" };
 export async function GET() {
   try {
     // Check cache in Postgres
+    // Fetch cached value with error handling
     const { rows } = await sql`
       SELECT value FROM message_cache 
       WHERE key = 'midgard-actions' 
-      AND expires_at > NOW() 
+      AND expires_at > NOW()
       ORDER BY created_at DESC 
       LIMIT 1
-    `;
+    `.catch((error) => {
+      console.error('Cache read error:', error);
+      return { rows: [] };
+    });
     
     if (rows.length > 0) {
-      return NextResponse.json(rows[0].value);
+      return NextResponse.json(rows[0].value, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Cache-Control': 'public, max-age=30'
+        }
+      });
     }
 
     const response = await fetch(
@@ -31,8 +40,10 @@ export async function GET() {
     // Store in Postgres with TTL
     await sql`
       INSERT INTO message_cache (key, value, expires_at) 
-      VALUES ('midgard-actions', ${data}, NOW() + INTERVAL '30 seconds')
-    `;
+      VALUES ('midgard-actions', ${JSON.stringify(data)}, NOW() + INTERVAL '30 seconds')
+    `.catch((error) => {
+      console.error('Cache write error:', error);
+    });
 
     return NextResponse.json(data, {
       headers: {
