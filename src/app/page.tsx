@@ -39,8 +39,8 @@ export default function Home() {
           const formatted = formatActionsToThorMail(actions);
           setThormails(formatted);
         }
-      } catch (err) {
-        if (err.name !== 'AbortError' && isMounted) {
+      } catch (err: unknown) {
+        if (err instanceof Error && err.name !== 'AbortError' && isMounted) {
           console.error('Failed to load messages:', err);
           setError('Failed to load messages. Please try refreshing the page.');
         }
