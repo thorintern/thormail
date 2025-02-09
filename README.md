@@ -10,8 +10,11 @@ Explore new skills.
 Use it to spread love only.
 
 ## Features to add
+- Support keystore and other wallets
 - Support thornames
 - Add richer text with break lines, bold and italic
 - Allow image tag, fetch from link and display inline
-- Play optional sound on new message
 - Support longer messages by concatenating memos
+- Support sending tip with message
+- Explore sending transaction info for execution (??)
+- Play optional sound on new message
