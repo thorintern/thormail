@@ -1,9 +1,10 @@
 import { MidgardActionListDTO } from "../types/midgard";
 
-export async function fetchMessages() {
+export async function fetchMessages(signal?: AbortSignal) {
   try {
     const response = await fetch('/api/midgard', {
-      next: { revalidate: 30 } // 30 seconds
+      next: { revalidate: 30 }, // 30 seconds
+      signal
     });
     
     if (!response.ok) {

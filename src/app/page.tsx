@@ -29,20 +29,34 @@ export default function Home() {
   const [thormails, setThormails] = useState<ThorMail[]>([]);
   
   useEffect(() => {
+    let isMounted = true;
+    const abortController = new AbortController();
+
     const loadMessages = async () => {
       try {
-        const actions = await fetchMessages();
-        const formatted = formatActionsToThorMail(actions);
-        setThormails(formatted);
+        const actions = await fetchMessages(abortController.signal);
+        if (isMounted) {
+          const formatted = formatActionsToThorMail(actions);
+          setThormails(formatted);
+        }
       } catch (err) {
-        console.error('Failed to load messages:', err);
-        setError('Failed to load messages. Please try refreshing the page.');
+        if (err.name !== 'AbortError' && isMounted) {
+          console.error('Failed to load messages:', err);
+          setError('Failed to load messages. Please try refreshing the page.');
+        }
       } finally {
-        setIsLoading(false);
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
 
     loadMessages();
+
+    return () => {
+      isMounted = false;
+      abortController.abort();
+    };
   }, [walletAddress]);
 
   // Combine static compose message with loaded messages
