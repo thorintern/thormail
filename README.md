@@ -18,3 +18,6 @@ Use it to spread love only.
 - Support sending tip with message
 - Explore sending transaction info for execution (??)
 - Play optional sound on new message
+
+## Bug fixes
+- Wallet connect + disconnect duplicates all messages
