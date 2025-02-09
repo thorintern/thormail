@@ -107,10 +107,10 @@ export default function Home() {
               ) : (
                 <>
                   <div className="font-medium text-pink-700">
-                    From: {message.title.split("→")[0].trim()}
+                    <strong>From:</strong> {message.title.split("→")[0].trim()}
                   </div>
                   <div className="text-xs text-pink-500">
-                    To: {message.title.split("→")[1]}
+                    <strong>To:</strong> {message.title.split("→")[1]}
                   </div>
                   <div className="text-xs text-pink-400 line-clamp-2 whitespace-pre-wrap">
                     {message.content.substring(0, 30).trim() + (message.content.length > 30 ? "..." : "")}
