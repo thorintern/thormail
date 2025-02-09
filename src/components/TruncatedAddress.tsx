@@ -22,6 +22,7 @@ export function TruncatedAddress({ address }: TruncatedAddressProps) {
       setTimeout(() => setIsCopied(false), 2000);
     } catch (_error) {
       toast.error("Failed to copy address");
+      console.error(_error);
     }
   };
 
