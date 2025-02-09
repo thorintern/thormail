@@ -10,7 +10,6 @@ export function SendButton({ compose, content, recipient, onConnect, onSwitchToC
   const walletAddress = swapKit?.getWallet(Chain.THORChain)?.address;
   const { sendMessages } = useSendMessages()
 
-
   return (
     <>
       {compose ? (
@@ -24,7 +23,7 @@ export function SendButton({ compose, content, recipient, onConnect, onSwitchToC
             to: recipient,
             content: content,
           })
-        }} className="bg-pink-100 text-pink-600 px-4 py-2 rounded-lg text-sm hover:bg-pink-200 transition-colors">Send Love</Button>
+        }} className="bg-pink-100 text-pink-600 px-4 py-2 rounded-lg text-sm hover:bg-pink-200 transition-colors">Send Love 💌</Button>
       ) : (
         <Button onClick={() => {
           onSwitchToCompose();
