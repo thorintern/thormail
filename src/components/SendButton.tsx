@@ -27,10 +27,6 @@ export function SendButton({ compose, content, recipient, onConnect}: {compose: 
         }} className="bg-pink-100 text-pink-600 px-4 py-2 rounded-lg text-sm hover:bg-pink-200 transition-colors">Send Love</Button>
       ) : (
         <Button onClick={() => {
-          if (!isWalletConnected) {
-            onConnect();
-            return;
-          }
           onSwitchToCompose();
         }} className="bg-pink-100 text-pink-600 px-4 py-2 rounded-lg text-sm hover:bg-pink-200 transition-colors">Reply 💌</Button>
       )}
