@@ -78,7 +78,13 @@ export default function Home() {
           {messages.map((message) => (
             <div
               key={message.id}
-              onClick={() => setSelectedMessage(message.id)}
+              onClick={() => {
+                setSelectedMessage(message.id);
+                if (message.id !== 0) {
+                  const selectedThormail = thormails[message.id - 1];
+                  setRecipientAddress(selectedThormail.from);
+                }
+              }}
               className={`p-3 text-sm rounded-md cursor-pointer transition-colors ${
                 selectedMessage === message.id
                   ? 'bg-red-100 text-red-600'
@@ -142,6 +148,13 @@ export default function Home() {
               content={messageContent}
               recipient={recipientAddress}
               onConnect={() => document.querySelector<HTMLButtonElement>('.connect-wallet-btn')?.click()}
+              onSwitchToCompose={() => {
+                setSelectedMessage(0);
+                if (selectedMessage !== null && selectedMessage !== 0) {
+                  const selectedThormail = thormails[selectedMessage - 1];
+                  setRecipientAddress(selectedThormail.from);
+                }
+              }}
             />
           </div>
         </div>

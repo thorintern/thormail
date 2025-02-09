@@ -5,7 +5,7 @@ import { useSwapKit } from "../lib/swapkit";
 import { Chain } from "@swapkit/helpers";
 import { useSendMessages } from "../hooks/useSendMessages";
 
-export function SendButton({ compose, content, recipient, onConnect}: {compose: boolean; content: string; recipient: string, onConnect: () => void}) {
+export function SendButton({ compose, content, recipient, onConnect}: {compose: boolean; content: string; recipient: string, onConnect: () => void, onSwitchToCompose: () => void}) {
   const { swapKit, isWalletConnected } = useSwapKit();
   const walletAddress = swapKit?.getWallet(Chain.THORChain)?.address;
   const { sendMessages } = useSendMessages()
@@ -31,11 +31,7 @@ export function SendButton({ compose, content, recipient, onConnect}: {compose: 
             onConnect();
             return;
           }
-          sendMessages({
-            from: walletAddress || "",
-            to: recipient,
-            content: content,
-          })
+          onSwitchToCompose();
         }} className="bg-pink-100 text-pink-600 px-4 py-2 rounded-lg text-sm hover:bg-pink-200 transition-colors">Reply 💌</Button>
       )}
     </>
