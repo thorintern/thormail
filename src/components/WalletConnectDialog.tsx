@@ -57,7 +57,7 @@ const WALLET_GROUPS = {
     // WalletOption.OKX_MOBILE,
     // WalletOption.BITGET,
   ],
-  Other: [WalletOption.KEYSTORE, WalletOption.CTRL, /*WalletOption.RADIX_WALLET*/],
+  Other: [/*WalletOption.KEYSTORE,*/ WalletOption.CTRL, /*WalletOption.RADIX_WALLET*/],
 };
 
 const AllChainsSupported = [
