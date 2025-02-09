@@ -34,10 +34,17 @@ export default function Home() {
 
     const loadMessages = async () => {
       try {
+        // Clear messages immediately when wallet disconnects
+        if (!walletAddress && isMounted) {
+          setThormails([]);
+          return;
+        }
+
         const actions = await fetchMessages(abortController.signal);
         if (isMounted) {
           const formatted = formatActionsToThorMail(actions);
           setThormails(formatted);
+          setSelectedMessage(null); // Also reset selected message
         }
       } catch (err: unknown) {
         if (err instanceof Error && err.name !== 'AbortError' && isMounted) {
@@ -57,7 +64,7 @@ export default function Home() {
       isMounted = false;
       abortController.abort();
     };
-  }, [walletAddress]);
+  }, [walletAddress]); // This effect now properly handles wallet disconnects
 
   // Combine static compose message with loaded messages
   const messages = [
