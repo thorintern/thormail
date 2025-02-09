@@ -6,11 +6,11 @@ import { formatActionsToThorMail } from '../lib/message';
 import Script from 'next/script';
 import Image from 'next/image';
 
-// import { useSwapKit } from "../lib/swapkit";
 import { WalletButton } from "../components/WalletButton";
 import { SendButton } from "../components/SendButton";
 import { GlobalKeystoreDialog } from "../components/GlobalKeystoreDialog";
 import { THORMAIL_ADDRESS } from "@/lib/constants";
+import { ThorMail } from "@/types/thormail"; 
 
 export default function Home() {
   const [selectedMessage, setSelectedMessage] = useState<number | null>(null);

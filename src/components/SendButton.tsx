@@ -4,7 +4,6 @@ import { Button } from "./ui/button";
 import { useSwapKit } from "../lib/swapkit";
 import { Chain } from "@swapkit/helpers";
 import { useSendMessages } from "../hooks/useSendMessages";
-import { THORMAIL_ADDRESS } from "@/lib/constants";
 
 export function SendButton({ compose, content, recipient}: {compose: boolean; content: string; recipient: string}) {
   const { swapKit, isWalletConnected } = useSwapKit();
