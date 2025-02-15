@@ -172,7 +172,7 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            <div className="prose prose-lg text-pink-900 p-8 rounded-lg overflow-auto flex-1">
+            <div className="prose prose-lg text-pink-900 p-8 rounded-lg overflow-auto flex-1 whitespace-pre-wrap">
               {messages.find(m => m.id === selectedMessage)?.content}
             </div>
           )}

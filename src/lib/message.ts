@@ -3,10 +3,13 @@ import {MidgardActionDTO } from "../types/midgard";
 import { ThorMail } from "../types/thormail";
 
 export const convertToMessages = (to: string, content: string): string[] => {
-  if (content.length <= MAX_CONTENT_LENGTH) {
-    return [`m|1|1|${to}|${content}`];
+  // Replace line breaks with actual newline character
+  const processedContent = content.replace(/\r\n/g, '\n');
+  
+  if (processedContent.length <= MAX_CONTENT_LENGTH) {
+    return [`m|1|1|${to}|${processedContent}`];
   }
-  const chunks = splitMessage(content);
+  const chunks = splitMessage(processedContent);
   return chunks.map((chunk, i) => {
     return `m|${i + 1}|${chunks.length}|${to}|${chunk}`;
   });
