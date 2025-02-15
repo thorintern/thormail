@@ -195,8 +195,9 @@ export default function Home() {
       </div>
     </div>
     <div className="absolute bottom-4 w-full text-center text-sm text-pink-400 space-y-1">
-      <div>Made with love, SwapKit & lots of AI ❤️🤖🧠</div>
-      <div>Version 1.0.1 - <a href="https://github.com/thorintern/thormail" className="hover:text-pink-600 transition-colors" target="_blank">Source code</a></div>
+      <div>Use at your own risk</div>
+      <div>Made with love, <a href="https://github.com/thorswap/SwapKit" className="hover:text-pink-600 transition-colors" target="_blank">SwapKit</a> & lots of AI ❤️🤖🧠</div>
+      <div>Version 1.0.2 - <a href="https://github.com/thorintern/thormail" className="hover:text-pink-600 transition-colors" target="_blank">Source code</a></div>
     </div>
     </div>
   );
