@@ -32,7 +32,7 @@ export function formatActionsToThorMail(actions: MidgardActionDTO[]): ThorMail[]
       const recipient = parts[3];
       const content = parts[4];
 
-      if(!recipient || !content) return null;
+      if(!recipient || !content || content.includes("[test]")) return null;
 
       // Mark this memo as seen
       seenMemos.add(memo);
