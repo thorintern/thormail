@@ -13,24 +13,26 @@ export const convertToMessages = (to: string, content: string): string[] => {
 };
 
 export function formatActionsToThorMail(actions: MidgardActionDTO[]): ThorMail[] {
-  const seenTxIds = new Set<string>();
+  const seenMemos = new Set<string>();
   const thormails = actions
     .map((action) => {
-      const sender = action.in[0].address;
+      const sender = action.in[0]?.address;
       const memo = action.metadata?.send?.memo;
-      const txId = action.metadata?.send?.txID;
 
-      // Skip if we've already seen this transaction
-      if (!sender || !memo || !txId || seenTxIds.has(txId)) return null;
+      // Skip if memo is invalid or already seen
+      if (!memo || !memo.startsWith('m|') || seenMemos.has(memo)) return null;
 
       const parts = memo.split("|");
+      // Ensure we have at least 5 parts (full memo structure)
+      if (parts.length < 5) return null;
+
       const recipient = parts[3];
       const content = parts[4];
 
       if(!recipient || !content) return null;
 
-      // Mark this transaction as seen
-      seenTxIds.add(txId);
+      // Mark this memo as seen
+      seenMemos.add(memo);
 
       return {
         from: sender,
