@@ -28,6 +28,8 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [thormails, setThormails] = useState<ThorMail[]>([]);
   
+  const MAX_MESSAGE_LENGTH = 200;
+
   useEffect(() => {
     let isMounted = true;
     const abortController = new AbortController();
@@ -156,12 +158,18 @@ export default function Home() {
                   placeholder="Enter recipient address or 'all' for everyone"
                 />
               </div>
-              <textarea
-              className="min-h-[300px] flex-1 p-6 rounded-lg border-2 border-pink-200 focus:border-red-300 focus:ring-2 focus:ring-red-200 resize-none text-pink-900 placeholder-pink-300 bg-white"
-              placeholder="Write your heartfelt message here..."
-              value={messageContent}
-              onChange={(e) => setMessageContent(e.target.value)}
-            />
+              <div className="relative">
+                <textarea
+                  className="min-h-[300px] w-full p-6 rounded-lg border-2 border-pink-200 focus:border-red-300 focus:ring-2 focus:ring-red-200 resize-none text-pink-900 placeholder-pink-300 bg-white"
+                  placeholder="Write your heartfelt message here..."
+                  value={messageContent}
+                  maxLength={MAX_MESSAGE_LENGTH}
+                  onChange={(e) => setMessageContent(e.target.value.slice(0, MAX_MESSAGE_LENGTH))}
+                />
+                <div className="absolute bottom-2 right-2 text-xs text-pink-400">
+                  {messageContent.length}/{MAX_MESSAGE_LENGTH}
+                </div>
+              </div>
             </div>
           ) : (
             <div className="prose prose-lg text-pink-900 p-8 rounded-lg overflow-auto flex-1">
