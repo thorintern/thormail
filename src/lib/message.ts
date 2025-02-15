@@ -17,6 +17,9 @@ export const convertToMessages = (to: string, content: string): string[] => {
 
 export function formatActionsToThorMail(actions: MidgardActionDTO[]): ThorMail[] {
   const seenMemos = new Set<string>();
+  const isDevelopment = typeof window !== 'undefined' && 
+    (window.location.hostname.includes('localhost') || window.location.hostname.includes('dev'));
+
   const thormails = actions
     .map((action) => {
       const sender = action.in[0]?.address;
@@ -32,7 +35,7 @@ export function formatActionsToThorMail(actions: MidgardActionDTO[]): ThorMail[]
       const recipient = parts[3];
       const content = parts[4];
 
-      if(!recipient || !content || content.includes("[test]")) return null;
+      if(!recipient || !content || (!isDevelopment && content.includes("[test]"))) return null;
 
       // Mark this memo as seen
       seenMemos.add(memo);
