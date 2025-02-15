@@ -172,9 +172,52 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            <div className="prose prose-lg text-pink-900 p-8 rounded-lg overflow-auto flex-1 whitespace-pre-wrap">
-              {messages.find(m => m.id === selectedMessage)?.content}
-            </div>
+            selectedMessage !== null && selectedMessage !== 0 ? (
+              <div className="prose prose-lg text-pink-900 p-8 rounded-lg overflow-auto flex-1">
+                {(() => {
+                  const message = messages.find(m => m.id === selectedMessage);
+                  const content = message?.content || '';
+                  
+                  // Extract image URLs
+                  const imageUrlRegex = /https?:\/\/\S+\.(jpg|jpeg|png|gif)(\?[^)\s]+)?/gi;
+                  const imageUrls = (content.match(imageUrlRegex) || []).filter(url => {
+                    try {
+                      new URL(url);
+                      return true;
+                    } catch {
+                      return false;
+                    }
+                  });
+                  
+                  // Remove image URLs from text
+                  const textWithoutImages = content.replace(imageUrlRegex, '').trim();
+
+                  return (
+                    <div className="space-y-4">
+                      {textWithoutImages && (
+                        <div className="whitespace-pre-wrap">{textWithoutImages}</div>
+                      )}
+                      {imageUrls.map((url, index) => (
+                        <div key={index} className="image-container">
+                          <img 
+                            src={url} 
+                            alt={`Embedded image ${index + 1}`} 
+                            className="max-w-full rounded-lg shadow-md"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display = 'none';
+                            }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })()}
+              </div>
+            ) : (
+              <div className="prose prose-lg text-pink-900 p-8 rounded-lg overflow-auto flex-1 whitespace-pre-wrap">
+                {messages.find(m => m.id === selectedMessage)?.content}
+              </div>
+            )
           )}
           <div className="mt-4 pt-4 pb-4 border-t border-pink-100 flex justify-end">
             <SendButton 
